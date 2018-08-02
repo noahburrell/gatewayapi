@@ -6,6 +6,18 @@ app = Flask(__name__)
 
 
 # Handle 404 errors
+@app.errorhandler(401)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not authorized'}), 401)
+
+
+# Handle 400 errors
+@app.errorhandler(400)
+def not_found(error):
+    return make_response(jsonify({'error': 'Malformed request'}), 400)
+
+
+# Handle 404 errors
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)

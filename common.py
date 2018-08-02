@@ -24,6 +24,7 @@ def authenticate(uid, ip, x_auth_token):
                 if str(hashlib.sha512(result['x-auth-base']+str(i)).hexdigest()).upper() == str(x_auth_token):
                     print("MATCH FOUND!")
                     return True
+    print("Not authorized")
     return False
 
 
