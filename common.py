@@ -19,7 +19,7 @@ def authenticate(uid, ip, x_auth_token):
             print("IP Match")
             # Try to match x-auth-token hashed with unix time (for the last 10 seconds)
             unixtime = int(time.time())
-            for i in range(unixtime-config.token_timeout, unixtime):
+            for i in range(unixtime-config.token_timeout, unixtime+config.token_timeout):
                 print("Trying: "+str(hashlib.sha512(result['x-auth-base']+str(i)).hexdigest()).upper()+" vs "+str(x_auth_token))
                 if str(hashlib.sha512(result['x-auth-base']+str(i)).hexdigest()).upper() == str(x_auth_token):
                     print("MATCH FOUND!")
