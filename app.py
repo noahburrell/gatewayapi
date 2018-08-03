@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import common
 import re
 from flask import Flask, jsonify, make_response, abort, request
@@ -26,9 +27,9 @@ def not_found(error):
 # Handle device PSK lookups
 @app.route('/api/v1.0/psk/<int:uid>/<string:psk>', methods=['GET'])
 def get_device(uid, psk):
-    if not request.headers.get('x-auth-token'):
+    if not request.headers.get('X-Auth-Token'):
         abort(401)
-    if common.authenticate(uid, request.remote_addr, request.headers.get('x-auth-token')) is not True:
+    if common.authenticate(uid, request.remote_addr, request.headers.get('X-Auth-Token')) is not True:
         abort(401)
 
     result = common.psk_lookup(uid, psk)
@@ -40,9 +41,9 @@ def get_device(uid, psk):
 # Handle updating device MAC associated with PSK
 @app.route('/api/v1.0/mac/<int:uid>/<int:id>', methods=['PUT'])
 def update_mac(uid, id):
-    if not request.headers.get('x-auth-token'):
+    if not request.headers.get('X-Auth-Token'):
         abort(401)
-    if common.authenticate(uid, request.remote_addr, request.headers.get('x-auth-token')) is not True:
+    if common.authenticate(uid, request.remote_addr, request.headers.get('X-Auth-Token')) is not True:
         abort(401)
 
     result = common.dev_lookup(uid, id)
@@ -63,4 +64,4 @@ def update_mac(uid, id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
