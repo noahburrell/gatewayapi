@@ -1,10 +1,10 @@
 import mysql.connector
 
 # Debug mode
-debugging = True
+debugging = False
 
 # Seconds a token is valid for
-token_timeout = 20
+token_timeout = 10
 
 # Initialize connection to database
 database = mysql.connector.connect(
