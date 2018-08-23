@@ -6,7 +6,7 @@ from flask import Flask, jsonify, make_response, abort, request
 app = Flask(__name__)
 
 
-# Handle 404 errors
+# Handle 401 errors
 @app.errorhandler(401)
 def not_found(error):
     return make_response(jsonify({'error': 'Not authorized'}), 401)
@@ -61,6 +61,18 @@ def update_mac(uid, id):
         abort(400)
 
     return jsonify({"status": common.update_mac(id, mac_list[0])})
+
+
+# Handle updating gateway IP
+@app.route('/api/v1.0/ip/<int:uid>/<str:old_ip>', methods=['PUT'])
+def update_ip(uid, old_ip):
+    if not request.headers.get('X-Auth-Token'):
+        abort(401)
+    if common.authenticate(uid, old_ip, request.headers.get('X-Auth-Token')) is not True:
+        abort(401)
+
+    # Return status of update to ip using the remote address in the header
+    return jsonify({"status": common.update_ip(uid, old_ip, request.remote_addr)})
 
 
 if __name__ == '__main__':

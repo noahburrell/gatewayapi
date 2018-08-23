@@ -45,3 +45,10 @@ def update_mac(id, mac):
     connection.execute("UPDATE "+config.devicetable+" SET macadd = '"+mac+"' WHERE id = "+str(id)+";")
     config.database.commit()
     return True
+
+
+def update_ip(uid, old_ip, ip):
+    connection = config.database.cursor(dictionary=True)
+    connection.execute("UPDATE "+config.gatewaytable+" SET ip = "+ip+" WHERE uid = "+uid+" AND ip = "+old_ip+";")
+    config.database.commit()
+    return True
